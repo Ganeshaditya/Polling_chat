@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Polling and Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="poll">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.min.js"
+                integrity="sha512-gVG6WRMUYFaIdoocaxbqd02p3DUbhReTBWc7NTGB96i7vONrr7GuCZJHFFmkXEhpwilIWUnfRIMSlKaApwd/jg=="
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+                integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+                crossorigin="anonymous"></script>
+
+            <!-- The title -->
+            <h1 style="text-align: center;">How is my project, can you rate it?</h1>
+
+            <!-- The canvas -->
+            <canvas id="voteChart" style="height:100vh; width:100vw"></canvas>
+
+            <!-- The buttons -->
+            <div class="center">
+                <button class="button" onclick="vote(0)">Bad</button>
+                <button class="button" onclick="vote(1)">Not Bad</button>
+                <button class="button" onclick="vote(2)">Good</button>
+                <button class="button" onclick="vote(3)">Fine</button>
+                <button class="button" onclick="vote(4)">Perfect</button>
+            </div>
+        </div>
+
+        <div id="chat">
+            <h2>Chat</h2>
+            <div id="chat-window"></div>
+            <input id="message-input" style="height: inherit; border: 3px solid rgba(27, 31, 35, 0.15);" type="text"
+                placeholder="Type a message...">
+            <button id="enterButton" class="button" onclick="sendMessage()">Send</button>
+            <div id="typing-indicator"></div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
