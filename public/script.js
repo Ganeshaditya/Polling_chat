@@ -1,4 +1,4 @@
-const socket = io("localhost:3000");
+const socket = io();
 let typingTimeout;
 let username = prompt('Enter your username:');
 socket.emit('setUsername', username);
