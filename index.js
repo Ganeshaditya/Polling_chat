@@ -3,11 +3,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-
-
+const mongoose = require('mongoose');
 
 const app = express();
 const server = http.createServer(app);
@@ -36,27 +32,15 @@ function randomRGB() {
 const chatHistory = [];
 const users = {};
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/");
+
 // Check database connected or not
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("polling-chat").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+connect.then(() => {
+    console.log("Database Connected Successfully");
+})
+    .catch(() => {
+        console.log("Database cannot be Connected");
+    })
 
 app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
