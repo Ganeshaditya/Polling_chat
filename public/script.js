@@ -1,8 +1,7 @@
 const socket = io();
 let typingTimeout;
 let token;
-document.getElementById("heading").innerHTML =
-    "Hello " + username + "! How is my project, can you rate it?";
+
 const ctx = document.getElementById("voteChart").getContext("2d");
 
 // Initialize the chart
