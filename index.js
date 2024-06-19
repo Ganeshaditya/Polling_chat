@@ -60,8 +60,6 @@ app.post('/login', async (req, res) => {
         return res.status(400).send('Invalid username or password');
     }
     const token = jwt.sign({ userId: user.username }, 'secretkey');
-    document.getElementById("heading").innerHTML =
-    "Hello " + username + "! How is my project, can you rate it?";
     res.send({ token });
 });
 
