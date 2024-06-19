@@ -32,10 +32,7 @@ function randomRGB() {
 const chatHistory = [];
 const users = {};
 
-const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/");
 
 // Check database connected or not
 connect.then(() => {
