@@ -1,11 +1,18 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+const User = require('./models/user');  // User model for authentication
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 const performance = {
@@ -21,11 +28,58 @@ function randomRGB() {
     const r = () => Math.random() * 256 >> 0;
     return `rgb(${r()}, ${r()}, ${r()})`;
 }
+//const performance = { option1: 0, option2: 0 };
 const chatHistory = [];
 const users = {};
 
+const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+// Check database connected or not
+connect.then(() => {
+    console.log("Database Connected Successfully");
+})
+    .catch(() => {
+        console.log("Database cannot be Connected");
+    })
+
+app.post('/signup', async (req, res) => {
+    const { username, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, password: hashedPassword });
+    await user.save();
+    res.status(201).send('User registered');
+});
+
+app.post('/login', async (req, res) => {
+    console.log(req.body);
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    console.log(user);
+    if (!user) {
+        return res.status(400).send('Invalid username or password');
+    }
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+        return res.status(400).send('Invalid username or password');
+    }
+    const token = jwt.sign({ userId: user.username }, 'secretkey');
+    res.send({ token });
+});
+
 io.on('connection', (socket) => {
     console.log('A user connected');
+
+    socket.on('authenticate', (token) => {
+        try {
+            const payload = jwt.verify(token, 'secretkey');
+            users[socket.id] = payload.userId;
+        } catch (e) {
+            socket.disconnect();
+        }
+    });
 
     socket.emit('updatePoll', performance);
     socket.emit('updateChat', chatHistory);
@@ -52,10 +106,7 @@ io.on('connection', (socket) => {
         io.emit('updateChat', chatHistory);
     });
 
-    // setting user name for basic authentication for editing the messages
-    socket.on('setUsername', (username) => {
-        users[socket.id] = username;
-    });
+
 
     socket.on('typing', (isTyping) => {
         socket.broadcast.emit('typing', isTyping ? users[socket.id] : null);
@@ -77,13 +128,12 @@ io.on('connection', (socket) => {
 
     // delete message
     socket.on('deleteMessage', (index) => {
-        const [username] = chatHistory[index].split(': ');
+        const [username] = chatHistory[index];
         if (username === users[socket.id]) {
             chatHistory.splice(index, 1);
             io.emit('updateChat', chatHistory);
         }
     });
-
 });
 
 const PORT = process.env.PORT || 3000;

@@ -23,6 +23,7 @@
 ## Project Structure
 
 - `index.js`: Main server file.
+- `models/User.js`: User model for authentication.
 - `public/`: Contains static files (HTML, CSS, JS).
 - `public/index.html`: HTML file for the client-side interface.
 - `public/styles.css`: CSS file for styling.
