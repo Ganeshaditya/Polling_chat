@@ -32,11 +32,9 @@ function randomRGB() {
 const chatHistory = [];
 const users = {};
 
-const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/");
-
 // Check database connected or not
 mongoose.connect(
-  "mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/",
+  "mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   (err) => {
    if(err) console.log(err) 
    else console.log("mongdb is connected");
