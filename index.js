@@ -35,12 +35,13 @@ const users = {};
 const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/");
 
 // Check database connected or not
-connect.then(() => {
-    console.log("Database Connected Successfully");
-})
-    .catch(() => {
-        console.log("Database cannot be Connected");
-    })
+mongoose.connect(
+  "mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/",
+  (err) => {
+   if(err) console.log(err) 
+   else console.log("mongdb is connected");
+  }
+);
 
 app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
