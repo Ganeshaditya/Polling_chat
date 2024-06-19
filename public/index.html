@@ -5,12 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real-time Polling and Chat</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div id="app">
-        <div id="poll">
+        <div id="auth">
+            <h2>Login</h2>
+            <input id="username" type="text" placeholder="Username">
+            <input id="password" type="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <button onclick="showSignup()">Sign Up</button>
+        </div>
+        <div id="signup" style="display:none;">
+            <h2>Sign Up</h2>
+            <input id="signup-username" type="text" placeholder="Username">
+            <input id="signup-password" type="password" placeholder="Password">
+            <button onclick="signup()">Sign Up</button>
+            <button onclick="showLogin()">Back to Login</button>
+        </div>
+        <div id="poll" style="display:none;">
+            <h2>Current Poll</h2>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.min.js"
                 integrity="sha512-gVG6WRMUYFaIdoocaxbqd02p3DUbhReTBWc7NTGB96i7vONrr7GuCZJHFFmkXEhpwilIWUnfRIMSlKaApwd/jg=="
                 crossorigin="anonymous"></script>
@@ -19,7 +34,7 @@
                 crossorigin="anonymous"></script>
 
             <!-- The title -->
-            <h1 style="text-align: center;">How is my project, can you rate it?</h1>
+            <h1 id="heading" style="text-align: center;"></h1>
 
             <!-- The canvas -->
             <canvas id="voteChart" style="height:100vh; width:100vw"></canvas>
@@ -33,8 +48,7 @@
                 <button class="button" onclick="vote(4)">Perfect</button>
             </div>
         </div>
-
-        <div id="chat">
+        <div id="chat" style="display:none;">
             <h2>Chat</h2>
             <div id="chat-window"></div>
             <input id="message-input" style="height: inherit; border: 3px solid rgba(27, 31, 35, 0.15);" type="text"

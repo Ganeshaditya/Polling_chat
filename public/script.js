@@ -1,12 +1,10 @@
 const socket = io();
 let typingTimeout;
-let username = prompt('Enter your username:');
-socket.emit('setUsername', username);
-
-
+let token;
 const ctx = document.getElementById("voteChart").getContext("2d");
 
 // Initialize the chart
+
 const chart = new Chart(ctx, {
     type: "bar",
     data: {
@@ -16,6 +14,57 @@ const chart = new Chart(ctx, {
 
     }
 });
+function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                token = data.token;
+                socket.emit('authenticate', token);
+                document.getElementById('auth').style.display = 'none';
+                document.getElementById('poll').style.display = 'block';
+                document.getElementById('chat').style.display = 'block';
+            } else {
+                alert('Login failed');
+            }
+        });
+}
+
+function signup() {
+    const username = document.getElementById('signup-username').value;
+    const password = document.getElementById('signup-password').value;
+
+    fetch('/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    })
+        .then(response => {
+            if (response.status === 201) {
+                alert('User registered, please login');
+                showLogin();
+            } else {
+                alert('Signup failed');
+            }
+        });
+}
+
+function showSignup() {
+    document.getElementById('auth').style.display = 'none';
+    document.getElementById('signup').style.display = 'block';
+}
+
+function showLogin() {
+    document.getElementById('signup').style.display = 'none';
+    document.getElementById('auth').style.display = 'block';
+}
 
 // On new vote update the chart
 socket.on("updatePoll", (perfomance) => {
@@ -110,12 +159,12 @@ document.getElementById('message-input').addEventListener('input', () => {
 var input = document.getElementById("message-input");
 
 // Execute a function when the user presses a key on the keyboard
-input.addEventListener("keypress", function(event) {
-  // If the user presses the "Enter" key on the keyboard
-  if (event.key === "Enter") {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    document.getElementById("enterButton").click();
-  }
+input.addEventListener("keypress", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("enterButton").click();
+    }
 });
