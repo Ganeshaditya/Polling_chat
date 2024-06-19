@@ -18,6 +18,8 @@ const chart = new Chart(ctx, {
 function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    document.getElementById("heading").innerHTML =
+    "Hello " + username + "! How is my project, can you rate it?";
 
     fetch('/login', {
         method: 'POST',
