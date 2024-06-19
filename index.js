@@ -3,7 +3,11 @@ const http = require('http');
 const socketIo = require('socket.io');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://saiganesh12798:<password>@cluster0.ri7hw63.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+
+
 
 const app = express();
 const server = http.createServer(app);
@@ -32,10 +36,15 @@ function randomRGB() {
 const chatHistory = [];
 const users = {};
 
-const connect = mongoose.connect("mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
 // Check database connected or not
-connect.then(() => {
+client.connect.then(() => {
     console.log("Database Connected Successfully");
 })
     .catch(() => {
