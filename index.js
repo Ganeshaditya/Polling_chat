@@ -34,12 +34,10 @@ const users = {};
 
 // Check database connected or not
 mongoose.connect(
-  "mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-  (err) => {
-   if(err) console.log(err) 
-   else console.log("mongdb is connected");
-  }
-);
+  "mongodb+srv://saiganesh12798:45JicVztp7NAQTNj@cluster0.ri7hw63.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+)
+.then(()=>console.log('connected'))
+.catch(e=>console.log(e));
 
 app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
