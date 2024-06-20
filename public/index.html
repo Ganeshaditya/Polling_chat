@@ -12,20 +12,20 @@
     <div id="app">
         <div id="auth">
             <h2>Login</h2>
-            <input id="username" type="text" placeholder="Username">
-            <input id="password" type="password" placeholder="Password">
-            <button onclick="login()">Login</button>
-            <button onclick="showSignup()">Sign Up</button>
+            <input id="username" style="height: inherit; border: 3px solid rgba(27, 31, 35, 0.15);" type="text" placeholder="Username">
+            <input id="password" style="height: inherit; border: 3px solid rgba(27, 31, 35, 0.15);" type="password" placeholder="Password">
+            <button class="button" onclick="login()">Login</button>
+            <button class="button" onclick="showSignup()">Sign Up</button>
         </div>
         <div id="signup" style="display:none;">
             <h2>Sign Up</h2>
-            <input id="signup-username" type="text" placeholder="Username">
-            <input id="signup-password" type="password" placeholder="Password">
-            <button onclick="signup()">Sign Up</button>
-            <button onclick="showLogin()">Back to Login</button>
+            <input id="signup-username" style="height: inherit; border: 3px solid rgba(27, 31, 35, 0.15);"  type="text" placeholder="Username">
+            <input id="signup-password" style="height: inherit; border: 3px solid rgba(27, 31, 35, 0.15);"  type="password" placeholder="Password">
+            <button class="button" onclick="signup()">Sign Up</button>
+            <button class="button" onclick="showLogin()">Back to Login</button>
         </div>
         <div id="poll" style="display:none;">
-            <h2 id="heading" style="text-align: center;"></h2>
+            <h2>Current Poll</h2>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.min.js"
                 integrity="sha512-gVG6WRMUYFaIdoocaxbqd02p3DUbhReTBWc7NTGB96i7vONrr7GuCZJHFFmkXEhpwilIWUnfRIMSlKaApwd/jg=="
                 crossorigin="anonymous"></script>
